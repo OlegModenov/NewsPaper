@@ -1,0 +1,25 @@
+{% extends 'flatpages/default.html' %}
+
+{% block title %}
+News
+{% endblock title %}
+
+{% block content %}
+
+    {{ news }}
+
+    {% if news %}
+
+        {% for news_one in news %}
+
+            {{ news.title }}
+            {{ news.creation_datetime }}
+            {{ news.text }}
+
+        {% endfor %}
+
+    {% else %}
+        <h2>Никаких новостей :(</h2>
+    {% endif %}
+
+{% endblock content %}
