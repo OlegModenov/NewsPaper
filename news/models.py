@@ -48,7 +48,7 @@ class Post(models.Model):
     type = models.BooleanField(default=False)  # False - статья, True - новость
     creation_datetime = models.DateTimeField(auto_now_add=True, verbose_name='Дата публикации')
     title = models.CharField(max_length=255, verbose_name='Название')
-    text = models.TextField()
+    text = models.TextField(verbose_name='Содержание')
     rating = models.IntegerField(default=0)
 
     def __str__(self):
@@ -65,6 +65,9 @@ class Post(models.Model):
 
     def preview(self):
         return f'{self.text[:125]}...'
+
+    def get_absolute_url(self):
+        return f'/news/{self.id}'
 
 
 class PostCategory(models.Model):
