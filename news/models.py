@@ -8,7 +8,7 @@ class Author(models.Model):
     rating = models.IntegerField(default=0)
 
     def __str__(self):
-        return f"user: {self.user}, rating: {self.rating}"
+        return f"{self.user}"
 
     def update_rating(self):
         """ суммарный рейтинг каждой статьи автора умножается на 3;
@@ -42,12 +42,12 @@ class Category(models.Model):
 
 
 class Post(models.Model):
-    author = models.ForeignKey(Author, on_delete=models.CASCADE)
+    author = models.ForeignKey(Author, on_delete=models.CASCADE, verbose_name='Автор')
     category = models.ManyToManyField(Category, through='PostCategory')
 
     type = models.BooleanField(default=False)  # False - статья, True - новость
-    creation_datetime = models.DateTimeField(auto_now_add=True)
-    title = models.CharField(max_length=255)
+    creation_datetime = models.DateTimeField(auto_now_add=True, verbose_name='Дата публикации')
+    title = models.CharField(max_length=255, verbose_name='Название')
     text = models.TextField()
     rating = models.IntegerField(default=0)
 
