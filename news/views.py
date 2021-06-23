@@ -1,6 +1,6 @@
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 
-from .models import Post
+from .models import Post, Author, User
 from .filters import PostFilter
 from .forms import NewsForm
 
@@ -38,19 +38,15 @@ class NewsDetail(DetailView):
     context_object_name = 'news_one'
 
 
-class NewsCreate(CreateView):
-    template_name = 'news_create.html'
+class NewsAdd(CreateView):
+    model = Post
+    template_name = 'news_add.html'
     form_class = NewsForm
 
-    # def post(self, request, *args, **kwargs):
-    #     form = self.form_class(request.POST)
-    #     if form.is_valid():
-    #         form.save()
-    #     return super().get(request, *args, **kwargs)
 
-
-class NewsUpdate(UpdateView):
-    template_name = 'news_create.html'
+class NewsEdit(UpdateView):
+    model = Post
+    template_name = 'news_edit.html'
     form_class = NewsForm
 
     def get_object(self, **kwargs):
@@ -59,6 +55,7 @@ class NewsUpdate(UpdateView):
 
 
 class NewsDelete(DeleteView):
+    model = Post
     template_name = 'news_delete.html'
     context_object_name = 'news_one'
     queryset = Post.objects.all()
