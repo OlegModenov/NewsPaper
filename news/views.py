@@ -5,9 +5,10 @@ from .filters import PostFilter
 from .forms import NewsForm
 
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import PermissionRequiredMixin
 
 
-class NewsList(ListView):
+class NewsList(LoginRequiredMixin, ListView):
     model = Post
     template_name = 'news.html'
     context_object_name = 'news'
@@ -40,13 +41,15 @@ class NewsDetail(DetailView):
     context_object_name = 'news_one'
 
 
-class NewsAdd(CreateView):
+class NewsAdd(PermissionRequiredMixin, CreateView):
+    permission_required = ('news.add_post',)
     model = Post
     template_name = 'news_add.html'
     form_class = NewsForm
 
 
-class NewsEdit(LoginRequiredMixin, UpdateView):
+class NewsEdit(PermissionRequiredMixin, UpdateView):
+    permission_required = ('news.change_post',)
     model = Post
     template_name = 'news_edit.html'
     form_class = NewsForm
@@ -56,7 +59,8 @@ class NewsEdit(LoginRequiredMixin, UpdateView):
         return Post.objects.get(pk=id)
 
 
-class NewsDelete(DeleteView):
+class NewsDelete(PermissionRequiredMixin, DeleteView):
+    permission_required = ('news.delete_post',)
     model = Post
     template_name = 'news_delete.html'
     context_object_name = 'news_one'

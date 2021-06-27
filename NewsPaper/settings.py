@@ -159,8 +159,12 @@ AUTHENTICATION_BACKENDS = [
 LOGIN_URL = '/accounts/login/'
 LOGIN_REDIRECT_URL = '/'
 
+# Для регистрации по почте
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_UNIQUE_EMAIL = True
 ACCOUNT_USERNAME_REQUIRED = False
 ACCOUNT_AUTHENTICATION_METHOD = 'email'
 ACCOUNT_EMAIL_VERIFICATION = 'none'
+
+# Для автоматического добавления в группу
+ACCOUNT_FORMS = {'signup': 'sign.models.BasicSignupForm'}
