@@ -4,6 +4,8 @@ from .models import Post, Author, User
 from .filters import PostFilter
 from .forms import NewsForm
 
+from django.contrib.auth.mixins import LoginRequiredMixin
+
 
 class NewsList(ListView):
     model = Post
@@ -44,7 +46,7 @@ class NewsAdd(CreateView):
     form_class = NewsForm
 
 
-class NewsEdit(UpdateView):
+class NewsEdit(LoginRequiredMixin, UpdateView):
     model = Post
     template_name = 'news_edit.html'
     form_class = NewsForm
