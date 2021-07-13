@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.urls import reverse
 
 
 class Author(models.Model):
@@ -36,9 +37,13 @@ class Author(models.Model):
 
 class Category(models.Model):
     title = models.CharField(max_length=255, unique=True)
+    subscribers = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):
         return f"title - {self.title}"
+
+    def get_absolute_url(self):
+        return reverse('news_category', kwargs={'category_id': self.pk})
 
 
 class Post(models.Model):
@@ -53,7 +58,7 @@ class Post(models.Model):
 
     def __str__(self):
         type = 'article' if not self.type else 'news'
-        return f"{self.title}, rating: {self.rating}, type: {type}"
+        return f"{self.title}"
 
     def like(self):
         self.rating += 1

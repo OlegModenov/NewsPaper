@@ -1,6 +1,6 @@
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 
-from .models import Post, Author, User
+from .models import Post, Category
 from .filters import PostFilter
 from .forms import NewsForm
 
@@ -13,12 +13,18 @@ class NewsList(LoginRequiredMixin, ListView):
     template_name = 'news.html'
     context_object_name = 'news'
     queryset = Post.objects.order_by('-creation_datetime')
-    paginate_by = 10
+    paginate_by = 3
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['posts_amount'] = len(Post.objects.all())
+        context['categories'] = Category.objects.all()
         return context
+
+
+class NewsOfCategory(NewsList):
+    def get_queryset(self):
+        return Post.objects.filter(category=self.kwargs['category_id'])
 
 
 class NewsSearch(ListView):
@@ -26,7 +32,7 @@ class NewsSearch(ListView):
     template_name = 'news_search.html'
     context_object_name = 'news'
     queryset = Post.objects.order_by('-creation_datetime')
-    paginate_by = 10
+    paginate_by = 5
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

@@ -1,4 +1,4 @@
-{% extends 'flatpages/default.html' %}
+{% extends 'default.html' %}
 
 {% load custom_filters %}
 
@@ -9,8 +9,7 @@ News
 {% block content %}
 
     <h1>Новости</h1>
-    <p> Количество новостей: {{ posts_amount }}</p>
-    <p> <a href="{% url 'news_search' %}">Search</a></p>
+    <!--   <p> Количество новостей: {{ posts_amount }}</p>-->
 
     {% if news %}
         {% for news_one in news %}
