@@ -22,7 +22,7 @@ News
                 <a href="{% url 'news_delete' news_one.pk %}"><u> Удалить </u></a>
             </p>
             <p>{{ news_one.creation_datetime | date:'d.m.Y'}}</p>
-            <p>{{ news_one.text | censor:'очень_плохое_слово' | truncatechars:50}}</p>
+            <p>{{ news_one.text | censor:'очень_плохое_слово' | truncatewords_html:50}}</p>
             <hr>
         {% endfor %}
     {% else %}

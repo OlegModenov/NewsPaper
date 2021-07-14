@@ -47,17 +47,22 @@ class Category(models.Model):
 
 
 class Post(models.Model):
+    TYPE = [
+        (None, 'Выберите тип'),
+        ('Article', 'Статья'),
+        ('News', 'Новость'),
+    ]
+
     author = models.ForeignKey(Author, on_delete=models.CASCADE, verbose_name='Автор')
     category = models.ManyToManyField(Category, through='PostCategory')
 
-    type = models.BooleanField(default=False)  # False - статья, True - новость
+    type = models.CharField(max_length=20, choices=TYPE, verbose_name='Тип', null=True)
     creation_datetime = models.DateTimeField(auto_now_add=True, verbose_name='Дата публикации')
     title = models.CharField(max_length=255, verbose_name='Название')
     text = models.TextField(verbose_name='Содержание')
     rating = models.IntegerField(default=0)
 
     def __str__(self):
-        type = 'article' if not self.type else 'news'
         return f"{self.title}"
 
     def like(self):
