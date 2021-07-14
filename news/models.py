@@ -40,7 +40,7 @@ class Category(models.Model):
     subscribers = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):
-        return f"title - {self.title}"
+        return f"{self.title}"
 
     def get_absolute_url(self):
         return reverse('news_category', kwargs={'category_id': self.pk})

@@ -1,4 +1,6 @@
 from django.contrib.auth.models import User
+from news.models import Author
+
 from django.views.generic.edit import CreateView
 from .models import BaseRegisterForm
 
@@ -16,8 +18,8 @@ class BaseRegisterView(CreateView):
 # Добавление в группу authors
 @login_required
 def become_author(request):
-    user = request.user
+    author = Author.objects.create(user=request.user)
     authors_group = Group.objects.get(name='authors')
     if not request.user.groups.filter(name='authors').exists():
-        authors_group.user_set.add(user)
+        authors_group.user_set.add(request.user)
     return redirect('/')
