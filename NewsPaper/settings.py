@@ -168,3 +168,11 @@ ACCOUNT_EMAIL_VERIFICATION = 'none'
 
 # Для автоматического добавления в группу
 ACCOUNT_FORMS = {'signup': 'sign.models.BasicSignupForm'}
+
+# Email
+EMAIL_HOST = 'smtp.yandex.ru'
+EMAIL_HOST_USER = 'pozvizdd@yandex.ru'
+EMAIL_HOST_PASSWORD = ''
+# EMAIL_HOST_PASSWORD = '<пароль приложения, созданный в яндексе>'
+EMAIL_PORT = 465
+EMAIL_USE_SSL = True

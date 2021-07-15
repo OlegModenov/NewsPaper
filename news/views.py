@@ -4,6 +4,10 @@ from django.views.generic import ListView, DetailView, CreateView, UpdateView, D
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 
+from django.core.mail import send_mail
+from django.core.mail import EmailMultiAlternatives
+from django.template.loader import render_to_string
+
 from .models import Post, Category, Author
 from .filters import PostFilter
 from .forms import NewsForm
@@ -13,6 +17,7 @@ class SubscribeView(LoginRequiredMixin, View):
 
     # связывает объекты категории и текущего пользователя
     def get(self, request, category_id, *args, **kwargs):
+        print(request.GET)
         user = self.request.user
         category = Category.objects.get(pk=category_id)
         if not category.subscribers.filter(pk=user.pk):
@@ -26,7 +31,6 @@ class SubscribeView(LoginRequiredMixin, View):
             'category': Category.objects.get(pk=category_id),
             'is_subscriber': is_subscriber
         }
-        print(is_subscriber)
         return render(request, 'subscribe_category.html', context)
 
     # def post(self, request, *args, **kwargs):
@@ -94,20 +98,78 @@ class NewsAdd(PermissionRequiredMixin, CreateView):
     template_name = 'news_add.html'
     form_class = NewsForm
 
-    # Функция для кастомной валидации полей формы модели
     # def form_valid(self, form):
-    #     form = form.save(commit=False)  # создаем форму, но пока не отправляем ее в БД
-    #     form.author = Author.objects.get(author=self.request.user)  # добавляем автора (текущего пользователя)
-    #     form.save()
+    #     instance = form.save(commit=False)
+    #     instance.author = self.request.user.author
+    #     instance.save()
+    #     # subscribers = form.instance.category.subscribers.all()
+    #
+    #     # address = []
+    #     # for subscriber in subscribers:
+    #     #     address.append(subscriber.email)
+    #     # html_content = render_to_string(
+    #     #     'news/article_created.html',
+    #     #     {
+    #     #         'article': form.instance.body,
+    #     #     }
+    #     # )
+    #     # msg = EmailMultiAlternatives(
+    #     #     subject=f'{form.instance.title}',
+    #     #     body=form.instance.body,
+    #     #     from_email='center.33@yandex.ru',
+    #     #     to=[*address],
+    #     # )
+    #     # msg.attach_alternative(html_content, "text/html")  # добавляем html
+    #     # msg.send()
     #     return super().form_valid(form)
 
     def post(self, request, *args, **kwargs):
         form = NewsForm(request.POST)
+
+        # Нужно будет реализовать для нескольких категорий
+        # categories_pk = request.POST.getlist('category')
+        # categories = Category.objects.filter(pk__in=categories_pk)
+
+        category_pk = request.POST['category']
+        client_text = request.POST['text']
+        client_title = request.POST['title']
+        category = Category.objects.get(pk=category_pk)
+        subscribers = category.subscribers.all()
+
+        for subscriber in subscribers:
+            print(subscriber.email)
+            if subscriber.email:
+                print(f'нашли юзера, отправляем ему на емаил. {subscriber.email}')
+
+                # html_content = render_to_string(
+                #     'post_created.html', {'post': post, 'user':subscriber}
+                # )
+                # msg = EmailMultiAlternatives(
+                #     subject=f'{subscriber.email}',
+                #     body=f'{client_text[:50]}',
+                #     from_email='pozvizdd@yandex.ru',
+                #     to=[subscriber.email, ],
+                # )
+                # msg.attach_alternative(html_content, "text/html")
+                # msg.send()
+
+                send_mail(
+                    subject=f'{subscriber.email}',
+                    message=f'Появился новый пост!\n {client_title}: {client_text[:50]}. \n Ссылка на статью: ',
+                    from_email='pozvizdd@yandex.ru',
+                    recipient_list=[subscriber.email, 'olegmodenov@gmail.com'],
+                )
+
+                print('---------------------')
+                print(subscriber.email)
+                print(client_text[:50])
+
         if form.is_valid():
             instance = form.save(commit=False)
             instance.author = self.request.user.author
             instance.save()
             return redirect(instance)
+
         return NewsForm(request, 'news/news_add.html', {'form': form})
 
     def get_context_data(self, **kwargs):
@@ -144,7 +206,3 @@ class NewsDelete(PermissionRequiredMixin, DeleteView):
         context = super().get_context_data(**kwargs)
         context['categories'] = Category.objects.all()
         return context
-
-
-
-
