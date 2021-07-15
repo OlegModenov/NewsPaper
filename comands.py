@@ -1,4 +1,4 @@
-# Comment.objects.all().delete()
+# Category.objects.all().delete()
 
 from news.models import User, Author, Category, Post, Comment
 
@@ -9,10 +9,10 @@ user2 = User.objects.create(username='Алексей')
 author1 = Author.objects.create(user=user1)
 author2 = Author.objects.create(user=user2)
 
-category1 = Category.objects.create(title='Sport')
-category2 = Category.objects.create(title='Politics')
-category3 = Category.objects.create(title='Entertainment')
-category4 = Category.objects.create(title='Music')
+category1 = Category.objects.create(title='Спорт')
+category2 = Category.objects.get(title='Политика')
+category3 = Category.objects.create(title='Развлечения')
+category4 = Category.objects.create(title='Музыка')
 
 article1 = Post.objects.create(title='Статья 1', text='Содержание статьи 1', author=author1)
 article2 = Post.objects.create(title='Статья 2', text='Содержание статьи 2', author=author2)

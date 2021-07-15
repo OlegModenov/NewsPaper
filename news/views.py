@@ -1,12 +1,38 @@
-from django.shortcuts import redirect
+from django.shortcuts import redirect, render
+from django.views import View
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 
 from .models import Post, Category, Author
 from .filters import PostFilter
 from .forms import NewsForm
 
-from django.contrib.auth.mixins import LoginRequiredMixin
-from django.contrib.auth.mixins import PermissionRequiredMixin
+
+class SubscribeView(LoginRequiredMixin, View):
+
+    # связывает объекты категории и текущего пользователя
+    def get(self, request, category_id, *args, **kwargs):
+        user = self.request.user
+        category = Category.objects.get(pk=category_id)
+        if not category.subscribers.filter(pk=user.pk):
+            is_subscriber = False
+            category.subscribers.add(user)
+        else:
+            is_subscriber = True
+
+        context = {
+            'categories': Category.objects.all(),
+            'category': Category.objects.get(pk=category_id),
+            'is_subscriber': is_subscriber
+        }
+        print(is_subscriber)
+        return render(request, 'subscribe_category.html', context)
+
+    # def post(self, request, *args, **kwargs):
+    #     user = self.request.user
+    #     print(user)
+    #     return render(request, 'subscribe_category.html', context)
 
 
 class NewsList(LoginRequiredMixin, ListView):
@@ -14,7 +40,7 @@ class NewsList(LoginRequiredMixin, ListView):
     template_name = 'news.html'
     context_object_name = 'news'
     queryset = Post.objects.order_by('-creation_datetime')
-    paginate_by = 3
+    paginate_by = 5
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -24,8 +50,15 @@ class NewsList(LoginRequiredMixin, ListView):
 
 
 class NewsOfCategory(NewsList):
+    template_name = 'news_category.html'
+
     def get_queryset(self):
         return Post.objects.filter(category=self.kwargs['category_id'])
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['category'] = None
+        return context
 
 
 class NewsSearch(ListView):
@@ -51,6 +84,7 @@ class NewsDetail(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['categories'] = Category.objects.all()
+        context['post_categories'] = self.model.category
         return context
 
 
@@ -110,6 +144,7 @@ class NewsDelete(PermissionRequiredMixin, DeleteView):
         context = super().get_context_data(**kwargs)
         context['categories'] = Category.objects.all()
         return context
+
 
 
 
