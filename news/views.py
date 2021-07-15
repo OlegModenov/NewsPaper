@@ -99,28 +99,11 @@ class NewsAdd(PermissionRequiredMixin, CreateView):
     form_class = NewsForm
 
     # def form_valid(self, form):
-    #     instance = form.save(commit=False)
-    #     instance.author = self.request.user.author
-    #     instance.save()
-    #     # subscribers = form.instance.category.subscribers.all()
+    #     # instance = form.save(commit=False)
+    #     # instance.author = self.request.user.author
+    #     # instance.save()
+    #     post = form.save()
     #
-    #     # address = []
-    #     # for subscriber in subscribers:
-    #     #     address.append(subscriber.email)
-    #     # html_content = render_to_string(
-    #     #     'news/article_created.html',
-    #     #     {
-    #     #         'article': form.instance.body,
-    #     #     }
-    #     # )
-    #     # msg = EmailMultiAlternatives(
-    #     #     subject=f'{form.instance.title}',
-    #     #     body=form.instance.body,
-    #     #     from_email='center.33@yandex.ru',
-    #     #     to=[*address],
-    #     # )
-    #     # msg.attach_alternative(html_content, "text/html")  # добавляем html
-    #     # msg.send()
     #     return super().form_valid(form)
 
     def post(self, request, *args, **kwargs):
@@ -136,39 +119,42 @@ class NewsAdd(PermissionRequiredMixin, CreateView):
         category = Category.objects.get(pk=category_pk)
         subscribers = category.subscribers.all()
 
-        for subscriber in subscribers:
-            print(subscriber.email)
-            if subscriber.email:
-                print(f'нашли юзера, отправляем ему на емаил. {subscriber.email}')
-
-                # html_content = render_to_string(
-                #     'post_created.html', {'post': post, 'user':subscriber}
-                # )
-                # msg = EmailMultiAlternatives(
-                #     subject=f'{subscriber.email}',
-                #     body=f'{client_text[:50]}',
-                #     from_email='pozvizdd@yandex.ru',
-                #     to=[subscriber.email, ],
-                # )
-                # msg.attach_alternative(html_content, "text/html")
-                # msg.send()
-
-                send_mail(
-                    subject=f'{subscriber.email}',
-                    message=f'Появился новый пост!\n {client_title}: {client_text[:50]}. \n Ссылка на статью: ',
-                    from_email='pozvizdd@yandex.ru',
-                    recipient_list=[subscriber.email, 'olegmodenov@gmail.com'],
-                )
-
-                print('---------------------')
-                print(subscriber.email)
-                print(client_text[:50])
-
         if form.is_valid():
-            instance = form.save(commit=False)
-            instance.author = self.request.user.author
-            instance.save()
-            return redirect(instance)
+            post = form.save(commit=False)
+            post.author = self.request.user.author
+            post.save()
+            print(post)
+
+            # Рассылка почты
+            for subscriber in subscribers:
+                print(subscriber.email)
+                if subscriber.email:
+                    print(f'нашли юзера, отправляем ему на емаил. {subscriber.email}')
+
+                    # Отправка HTML
+                    html_content = render_to_string(
+                        'mail.html', {
+                            'user': subscriber,
+                            'text': client_text[:50],
+                            'post': post,
+                        }
+                    )
+                    msg = EmailMultiAlternatives(
+                        subject=f'Здравствуй, {subscriber.username}. Новая статья в твоём любимом разделе!',
+                        body=f'{client_text[:50]}',
+                        from_email='pozvizdd@yandex.ru',
+                        to=[subscriber.email, 'olegmodenov@gmail.com'],
+                    )
+                    msg.attach_alternative(html_content, "text/html")
+                    msg.send()
+
+                    # # Отправка простого текста
+                    # send_mail(
+                    #     subject=f'{subscriber.email}',
+                    #     message=f'Появился новый пост!\n {client_title}: {client_text[:50]}. \n Ссылка на статью: ',
+                    #     from_email='pozvizdd@yandex.ru',
+                    #     recipient_list=[subscriber.email, 'olegmodenov@gmail.com'],
+            return redirect(post)
 
         return NewsForm(request, 'news/news_add.html', {'form': form})
 
