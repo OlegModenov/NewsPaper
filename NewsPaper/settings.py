@@ -49,7 +49,7 @@ INSTALLED_APPS = [
     # ... include the providers you want to enable:
     'allauth.socialaccount.providers.google',
 
-    'news',
+    'news.apps.NewsConfig',
     'sign',
     'protect',
 ]
