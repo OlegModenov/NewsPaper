@@ -12,12 +12,49 @@ from .models import Post, Category, Author
 from .filters import PostFilter
 from .forms import NewsForm
 
+from django.db.models.signals import m2m_changed
+from django.dispatch import receiver
+
+
+@receiver(m2m_changed, sender=Post.category.through)
+def notify_subscribers(sender, instance, **kwargs):
+    action = kwargs['action']
+    if action == 'post_add':
+        categories = instance.category.all()
+        for category in categories:
+            subscribers = category.subscribers.all()
+            for subscriber in subscribers:
+                print(subscriber.email)
+                print(instance.get_absolute_url())
+                if subscriber.email:
+                    # Отправка HTML
+                    html_content = render_to_string(
+                        'mail.html', {
+                            'user': subscriber,
+                            'text': f'{instance.text[:50]}',
+                            'post': instance,
+                        }
+                    )
+                    msg = EmailMultiAlternatives(
+                        subject=f'Здравствуй, {subscriber.username}. Новая статья в твоём любимом разделе!',
+                        body=f'{instance.text[:50]}',
+                        from_email='pozvizdd@yandex.ru',
+                        to=[subscriber.email, 'olegmodenov@gmail.com'],
+                    )
+                    msg.attach_alternative(html_content, "text/html")
+                    msg.send()
+
+                    # # Отправка простого текста
+                    # send_mail(
+                    #     subject=f'{subscriber.email}',
+                    #     message=f'Появился новый пост!\n {client_title}: {client_text[:50]}. \n Ссылка на статью: ',
+                    #     from_email='pozvizdd@yandex.ru',
+                    #     recipient_list=[subscriber.email, 'olegmodenov@gmail.com'],
+
 
 class SubscribeView(LoginRequiredMixin, View):
-
     # связывает объекты категории и текущего пользователя
     def get(self, request, category_id, *args, **kwargs):
-        print(request.GET)
         user = self.request.user
         category = Category.objects.get(pk=category_id)
         if not category.subscribers.filter(pk=user.pk):
@@ -33,15 +70,10 @@ class SubscribeView(LoginRequiredMixin, View):
         }
         return render(request, 'subscribe_category.html', context)
 
-    # def post(self, request, *args, **kwargs):
-    #     user = self.request.user
-    #     print(user)
-    #     return render(request, 'subscribe_category.html', context)
-
 
 class NewsList(LoginRequiredMixin, ListView):
     model = Post
-    template_name = 'news.html'
+    template_name = 'news/news.html'
     context_object_name = 'news'
     queryset = Post.objects.order_by('-creation_datetime')
     paginate_by = 5
@@ -54,7 +86,7 @@ class NewsList(LoginRequiredMixin, ListView):
 
 
 class NewsOfCategory(NewsList):
-    template_name = 'news_category.html'
+    template_name = 'news/news_category.html'
 
     def get_queryset(self):
         return Post.objects.filter(category=self.kwargs['category_id'])
@@ -67,7 +99,7 @@ class NewsOfCategory(NewsList):
 
 class NewsSearch(ListView):
     model = Post
-    template_name = 'news_search.html'
+    template_name = 'news/news_search.html'
     context_object_name = 'news'
     queryset = Post.objects.order_by('-creation_datetime')
     paginate_by = 5
@@ -82,7 +114,7 @@ class NewsSearch(ListView):
 
 class NewsDetail(DetailView):
     model = Post
-    template_name = 'news_one.html'
+    template_name = 'news/news_one.html'
     context_object_name = 'news_one'
 
     def get_context_data(self, **kwargs):
@@ -95,65 +127,65 @@ class NewsDetail(DetailView):
 class NewsAdd(PermissionRequiredMixin, CreateView):
     permission_required = ('news.add_post',)
     model = Post
-    template_name = 'news_add.html'
+    template_name = 'news/news_add.html'
     form_class = NewsForm
-
-    # def form_valid(self, form):
-    #     # instance = form.save(commit=False)
-    #     # instance.author = self.request.user.author
-    #     # instance.save()
-    #     post = form.save()
-    #
-    #     return super().form_valid(form)
 
     def post(self, request, *args, **kwargs):
         form = NewsForm(request.POST)
-
-        # Нужно будет реализовать для нескольких категорий
-        # categories_pk = request.POST.getlist('category')
-        # categories = Category.objects.filter(pk__in=categories_pk)
-
-        category_pk = request.POST['category']
         client_text = request.POST['text']
         client_title = request.POST['title']
+
+        # # Правильная реализация - у поста несколько категорий
+        # categories_pk = request.POST.getlist('category')
+        # categories = Category.objects.filter(pk__in=categories_pk)
+        # print(categories_pk, categories)
+        # cat_subscribers = {}  # Словарь {Категория: queryset подписчиков}
+        # for cat in categories:
+        #     cat_subscribers[cat] = cat.subscribers.all()
+
+        # Более простая реализация (но неверная) - для одной категории у поста
+        category_pk = request.POST['category']
         category = Category.objects.get(pk=category_pk)
         subscribers = category.subscribers.all()
 
+        # Если форма прошла валидацию, перенаправляем на страницу созданной новости
         if form.is_valid():
-            post = form.save(commit=False)
-            post.author = self.request.user.author
-            post.save()
-            print(post)
+            # назначение текущего пользователя автором поста
+            # post = form.save(commit=False)
+            # post.author = self.request.user.author
+            # post.save()
 
-            # Рассылка почты
-            for subscriber in subscribers:
-                print(subscriber.email)
-                if subscriber.email:
-                    print(f'нашли юзера, отправляем ему на емаил. {subscriber.email}')
+            post = form.save()
+            print(post.category.all())
+            # Почему-то на выходе пустой queryset, без категорий
 
-                    # Отправка HTML
-                    html_content = render_to_string(
-                        'mail.html', {
-                            'user': subscriber,
-                            'text': client_text[:50],
-                            'post': post,
-                        }
-                    )
-                    msg = EmailMultiAlternatives(
-                        subject=f'Здравствуй, {subscriber.username}. Новая статья в твоём любимом разделе!',
-                        body=f'{client_text[:50]}',
-                        from_email='pozvizdd@yandex.ru',
-                        to=[subscriber.email, 'olegmodenov@gmail.com'],
-                    )
-                    msg.attach_alternative(html_content, "text/html")
-                    msg.send()
-
-                    # # Отправка простого текста
-                    # send_mail(
-                    #     subject=f'{subscriber.email}',
-                    #     message=f'Появился новый пост!\n {client_title}: {client_text[:50]}. \n Ссылка на статью: ',
-                    #     from_email='pozvizdd@yandex.ru',
-                    #     recipient_list=[subscriber.email, 'olegmodenov@gmail.com'],
+            # # Рассылка почты
+            # for subscriber in subscribers:
+            #     print(subscriber.email)
+            #     if subscriber.email:
+            #         # Отправка HTML
+            #         html_content = render_to_string(
+            #             'mail.html', {
+            #                 'user': subscriber,
+            #                 'text': client_text[:50],
+            #                 'post': post,
+            #             }
+            #         )
+            #         msg = EmailMultiAlternatives(
+            #             subject=f'Здравствуй, {subscriber.username}. Новая статья в твоём любимом разделе!',
+            #             body=f'{client_text[:50]}',
+            #             from_email='pozvizdd@yandex.ru',
+            #             to=[subscriber.email, 'olegmodenov@gmail.com'],
+            #         )
+            #         msg.attach_alternative(html_content, "text/html")
+            #         msg.send()
+            #
+            #         # # Отправка простого текста
+            #         # send_mail(
+            #         #     subject=f'{subscriber.email}',
+            #         #     message=f'Появился новый пост!\n {client_title}: {client_text[:50]}. \n Ссылка на статью: ',
+            #         #     from_email='pozvizdd@yandex.ru',
+            #         #     recipient_list=[subscriber.email, 'olegmodenov@gmail.com'],
             return redirect(post)
 
         return NewsForm(request, 'news/news_add.html', {'form': form})
@@ -167,7 +199,7 @@ class NewsAdd(PermissionRequiredMixin, CreateView):
 class NewsEdit(PermissionRequiredMixin, UpdateView):
     permission_required = ('news.change_post',)
     model = Post
-    template_name = 'news_edit.html'
+    template_name = 'news/news_edit.html'
     form_class = NewsForm
 
     def get_object(self, **kwargs):
@@ -183,7 +215,7 @@ class NewsEdit(PermissionRequiredMixin, UpdateView):
 class NewsDelete(PermissionRequiredMixin, DeleteView):
     permission_required = ('news.delete_post',)
     model = Post
-    template_name = 'news_delete.html'
+    template_name = 'news/news_delete.html'
     context_object_name = 'news_one'
     queryset = Post.objects.all()
     success_url = '/news/'

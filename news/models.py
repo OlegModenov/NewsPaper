@@ -61,6 +61,11 @@ class Post(models.Model):
     text = models.TextField(verbose_name='Содержание')
     rating = models.IntegerField(default=0)
 
+    class Meta:
+        verbose_name = 'Пост'
+        verbose_name_plural = 'Посты'
+        ordering = ['-creation_datetime', 'title']
+
     def __str__(self):
         return f"{self.title}"
 
@@ -76,7 +81,7 @@ class Post(models.Model):
         return f'{self.text[:125]}...'
 
     def get_absolute_url(self):
-        return f'/news/{self.id}'
+        return reverse('news_one', kwargs={'pk': self.pk})
 
 
 class PostCategory(models.Model):

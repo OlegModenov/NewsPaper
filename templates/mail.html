@@ -7,8 +7,12 @@
     <title>Document</title>
 </head>
 <body>
-    <h1> Новая статья от {{ user.username }} </h1>
+    <h1> Новая статья от {{ post.author }} </h1>
     <p> {{ text }} </p>
-    <p><a href="{{ post.get_absolute_url }}"></a></p>
+    <p> Ссылка на статью:
+        <a href="{{ post.get_absolute_url }}"></a>
+        <a href="http://127.0.0.1:8000{% url 'news_one' post.pk %}">{{ post.title }}</a>
+    </p>
+
 </body>
 </html>
