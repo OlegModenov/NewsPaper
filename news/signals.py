@@ -15,8 +15,6 @@ def notify_subscribers(sender, instance, **kwargs):
         for category in categories:
             subscribers = category.subscribers.all()
             for subscriber in subscribers:
-                print(subscriber.email)
-                print(instance.get_absolute_url())
                 if subscriber.email:
                     # Отправка HTML
                     html_content = render_to_string(
@@ -28,7 +26,6 @@ def notify_subscribers(sender, instance, **kwargs):
                     )
                     msg = EmailMultiAlternatives(
                         subject=f'Здравствуй, {subscriber.username}. Новая статья в твоём любимом разделе!',
-                        body=f'{instance.text[:50]}',
                         from_email='pozvizdd@yandex.ru',
                         to=[subscriber.email, 'olegmodenov@gmail.com'],
                     )
@@ -38,6 +35,7 @@ def notify_subscribers(sender, instance, **kwargs):
                     # # Отправка простого текста
                     # send_mail(
                     #     subject=f'{subscriber.email}',
-                    #     message=f'Появился новый пост!\n {client_title}: {client_text[:50]}. \n Ссылка на статью: ',
+                    #     message=f'Появился новый пост!\n {instance.title}: {instance.text[:50]}.',
                     #     from_email='pozvizdd@yandex.ru',
                     #     recipient_list=[subscriber.email, 'olegmodenov@gmail.com'],
+                    # )

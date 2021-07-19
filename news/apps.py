@@ -6,4 +6,5 @@ class NewsConfig(AppConfig):
     name = 'news'
 
     def ready(self):
+        # Для того, чтобы работали сигналы
         import news.signals

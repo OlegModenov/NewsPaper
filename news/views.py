@@ -93,6 +93,19 @@ class NewsAdd(PermissionRequiredMixin, CreateView):
         context['categories'] = Category.objects.all()
         return context
 
+    # def post(self, request, *args, **kwargs):
+    #     form = NewsForm(request.POST)
+    #
+    #     # Если форма прошла валидацию, перенаправляем на страницу созданной новости
+    #     if form.is_valid():
+    #         # назначение текущего пользователя автором поста
+    #         post = form.save(commit=False)
+    #         post.author = self.request.user.author
+    #         post.save()
+    #         return redirect(post)
+    #
+    #     return NewsForm(request, 'news/news_add.html', {'form': form})
+
 
 class NewsEdit(PermissionRequiredMixin, UpdateView):
     permission_required = ('news.change_post',)
