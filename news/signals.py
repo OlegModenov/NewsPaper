@@ -6,7 +6,7 @@ from django.template.loader import render_to_string
 
 from .models import Post
 
-
+#  # Отправляет по почте информацию о том, что добавлен новый пост в категории, на которую подписан пользователь
 # @receiver(m2m_changed, sender=Post.category.through)
 # def notify_subscribers(sender, instance, **kwargs):
 #     action = kwargs['action']

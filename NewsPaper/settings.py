@@ -175,3 +175,12 @@ DEFAULT_FROM_EMAIL = 'pozvizdd@yandex.ru'  # Для allauth (регистрац�
 # Apschedular - выполнение задач по расписанию
 APSCHEDULER_DATETIME_FORMAT = "N j, Y, f:s a"
 APSCHEDULER_RUN_NOW_TIMEOUT = 25  # Seconds
+
+# Настройка кэша
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
+        'LOCATION': os.path.join(BASE_DIR, 'cache_files'),
+        # 'TIMEOUT': 30,
+    }
+}
