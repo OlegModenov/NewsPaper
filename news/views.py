@@ -3,6 +3,7 @@ from django.views import View
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+from django.core.cache import cache
 
 
 from .models import Post, Category
@@ -74,6 +75,19 @@ class NewsDetail(DetailView):
     model = Post
     template_name = 'news/news_one.html'
     context_object_name = 'news_one'
+    queryset = Post.objects.all()
+
+    def get_object(self, *args, **kwargs):
+        obj = cache.get(f'post-{self.kwargs["pk"]}', None)
+        print(obj)
+
+        # если объекта нет в кэше, то получаем его и записываем в кэш
+        if not obj:
+            obj = super().get_object(**kwargs)
+            cache.set(f'post-{self.kwargs["pk"]}', obj)
+            print('Записано в кэш')
+
+        return obj
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
