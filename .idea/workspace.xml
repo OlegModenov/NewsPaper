@@ -2,12 +2,29 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="7ddb1a6c-5043-442c-ae88-518dbe0b7c10" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/Dockerfile" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/docker-compose.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/news/tasks.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cache_files/397217d13d03a30bbfa9fa26932626d5.djcache" beforeDir="false" afterPath="$PROJECT_DIR$/cache_files/397217d13d03a30bbfa9fa26932626d5.djcache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cache_files/57c5822ab08ed23c0e6bbb6773a18872.djcache" beforeDir="false" afterPath="$PROJECT_DIR$/cache_files/57c5822ab08ed23c0e6bbb6773a18872.djcache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cache_files/5fb8cb6577723d287bae187bbfe24063.djcache" beforeDir="false" afterPath="$PROJECT_DIR$/cache_files/5fb8cb6577723d287bae187bbfe24063.djcache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cache_files/91cc181979a27ca39083d54dab8e06b0.djcache" beforeDir="false" afterPath="$PROJECT_DIR$/cache_files/91cc181979a27ca39083d54dab8e06b0.djcache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cache_files/d483c95a2185e1574d1f99f739f589d4.djcache" beforeDir="false" afterPath="$PROJECT_DIR$/cache_files/d483c95a2185e1574d1f99f739f589d4.djcache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cache_files/f64dbb327b439a996978dbb4d3b4d273.djcache" beforeDir="false" afterPath="$PROJECT_DIR$/cache_files/f64dbb327b439a996978dbb4d3b4d273.djcache" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/news/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/news/models.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -20,7 +37,7 @@
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../WebForMyself" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/.." />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
@@ -33,5 +50,16 @@
       <updated>1626154862699</updated>
     </task>
     <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
 </project>

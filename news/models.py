@@ -73,6 +73,7 @@ class Post(models.Model):
     def get_absolute_url(self):
         return reverse('news_one', kwargs={'pk': self.pk})
 
+    # Для кэширования отдельной новости
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)  # сначала вызываем метод родителя, чтобы объект сохранился
         cache.delete(f'post-{self.pk}')  # затем удаляем его из кэша, чтобы сбросить его
