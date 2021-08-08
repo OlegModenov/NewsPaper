@@ -9,6 +9,7 @@ from django.core.cache import cache
 from .models import Post, Category
 from .filters import PostFilter
 from .forms import NewsForm
+from . import tasks
 
 
 class SubscribeView(LoginRequiredMixin, View):
@@ -117,10 +118,11 @@ class NewsAdd(PermissionRequiredMixin, CreateView):
             post.save()
             # сбиваются категории
             categories = Category.objects.filter(pk__in=self.request.POST.getlist('category'))
-            print(categories)
             for cat in categories:
                 post.category.add(cat)
             post.save()
+
+            tasks.notify_subscribers.delay(post.pk)
             return redirect(post)
 
         return NewsForm(request, 'news/news_add.html', {'form': form})

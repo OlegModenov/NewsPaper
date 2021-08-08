@@ -1,12 +1,15 @@
-from django.db.models.signals import m2m_changed
-from django.dispatch import receiver
-from django.core.mail import send_mail
-from django.core.mail import EmailMultiAlternatives
-from django.template.loader import render_to_string
+# Старый вариант, реализовано с помощью Celery
 
-from .models import Post
-
-#  # Отправляет по почте информацию о том, что добавлен новый пост в категории, на которую подписан пользователь
+# from django.db.models.signals import m2m_changed
+# from django.dispatch import receiver
+# from django.core.mail import send_mail
+# from django.core.mail import EmailMultiAlternatives
+# from django.template.loader import render_to_string
+#
+# from .models import Post
+#
+#
+# # Отправляет по почте информацию о том, что добавлен новый пост в категории, на которую подписан пользователь
 # @receiver(m2m_changed, sender=Post.category.through)
 # def notify_subscribers(sender, instance, **kwargs):
 #     action = kwargs['action']

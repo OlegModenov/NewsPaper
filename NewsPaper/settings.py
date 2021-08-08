@@ -197,6 +197,6 @@ CELERY_BEAT_SCHEDULE = {
     'send_to_subscribers': {
         'task': 'news.tasks.send_to_subscribers',
         # 'schedule': crontab(),  # execute every minute - для тестирования
-        'schedule': crontab(crontab(hour=8, minute=00, day_of_week=1))
+        'schedule': crontab(hour=8, minute=00, day_of_week=1)
     }
 }

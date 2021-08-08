@@ -1,9 +1,10 @@
 from celery import shared_task
 from datetime import datetime, timezone, timedelta
 
-from django.core.mail import EmailMultiAlternatives
+from django.core.mail import EmailMultiAlternatives, send_mail
 from django.template.loader import render_to_string
-from news.models import Category
+
+from news.models import Category, Post
 
 
 @shared_task
@@ -33,3 +34,41 @@ def send_to_subscribers():
                     )
                     msg.attach_alternative(html_content, "text/html")
                     msg.send()
+
+
+@shared_task
+def notify_subscribers(post_pk):
+    """ Отправляет по почте информацию, что добавлен новый пост в категории, на которую подписан пользователь """
+    post = Post.objects.get(pk=post_pk)
+    categories = post.category.all()
+    for category in categories:
+        subscribers = category.subscribers.all()
+        for subscriber in subscribers:
+            if subscriber.email:
+                # Отправка простого текста
+                send_mail(
+                    subject=f'{subscriber.email}',
+                    message=f'Появился новый пост!\n {post.title}\n {post.text[:50]}.',
+                    from_email='pozvizdd@yandex.ru',
+                    recipient_list=[subscriber.email, 'olegmodenov@gmail.com'],
+                )
+                # # Отправка HTML
+                # html_content = render_to_string(
+                #     'mail.html', {
+                #         'user': subscriber,
+                #         'text': f'{post.text[:50]}',
+                #         'post': post.title,
+                #     }
+                # )
+                # msg = EmailMultiAlternatives(
+                #     subject=f'Привет, {subscriber.username}. Новая статья в твоём любимом разделе!',
+                #     from_email='pozvizdd@yandex.ru',
+                #     to=[subscriber.email, 'olegmodenov@gmail.com'],
+                # )
+                # msg.attach_alternative(html_content, "text/html")
+                # msg.send()
+
+
+# @shared_task
+# def hello(name):
+#     print('hello ' + name)
