@@ -1,4 +1,4 @@
-# Старый вариант. Реализовано с помощью Celery
+# Старый вариант. В новом реализовано с помощью Celery
 
 # import logging
 # from datetime import datetime, timezone, timedelta
