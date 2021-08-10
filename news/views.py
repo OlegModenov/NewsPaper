@@ -122,7 +122,7 @@ class NewsAdd(PermissionRequiredMixin, CreateView):
                 post.category.add(cat)
             post.save()
 
-            tasks.notify_subscribers.delay(post.pk)
+            tasks.notify_subscribers.delay(post.pk)  # асинхронная отправка писем
             return redirect(post)
 
         return NewsForm(request, 'news/news_add.html', {'form': form})
