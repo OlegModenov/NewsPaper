@@ -1,0 +1,61 @@
+Not Found: /favicon.ico
+Watching for file changes with StatReloader
+C:\Users\пїЅпїЅпїЅпїЅ\Desktop\DjangoProjects\NewsPortal\NewsPaper\NewsPaper\settings.py changed, reloading.
+Watching for file changes with StatReloader
+C:\Users\пїЅпїЅпїЅпїЅ\Desktop\DjangoProjects\NewsPortal\NewsPaper\NewsPaper\settings.py changed, reloading.
+Watching for file changes with StatReloader
+C:\Users\пїЅпїЅпїЅпїЅ\Desktop\DjangoProjects\NewsPortal\NewsPaper\NewsPaper\settings.py changed, reloading.
+Watching for file changes with StatReloader
+C:\Users\пїЅпїЅпїЅпїЅ\Desktop\DjangoProjects\NewsPortal\NewsPaper\NewsPaper\settings.py changed, reloading.
+Watching for file changes with StatReloader
+C:\Users\пїЅпїЅпїЅпїЅ\Desktop\DjangoProjects\NewsPortal\NewsPaper\NewsPaper\settings.py changed, reloading.
+Watching for file changes with StatReloader
+C:\Users\пїЅпїЅпїЅпїЅ\Desktop\DjangoProjects\NewsPortal\NewsPaper\NewsPaper\settings.py changed, reloading.
+Watching for file changes with StatReloader
+C:\Users\пїЅпїЅпїЅпїЅ\Desktop\DjangoProjects\NewsPortal\NewsPaper\NewsPaper\settings.py changed, reloading.
+Watching for file changes with StatReloader
+C:\Users\пїЅпїЅпїЅпїЅ\Desktop\DjangoProjects\NewsPortal\NewsPaper\NewsPaper\settings.py changed, reloading.
+Watching for file changes with StatReloader
+C:\Users\пїЅпїЅпїЅпїЅ\Desktop\DjangoProjects\NewsPortal\NewsPaper\NewsPaper\settings.py changed, reloading.
+Watching for file changes with StatReloader
+C:\Users\пїЅпїЅпїЅпїЅ\Desktop\DjangoProjects\NewsPortal\NewsPaper\NewsPaper\settings.py changed, reloading.
+Watching for file changes with StatReloader
+C:\Users\пїЅпїЅпїЅпїЅ\Desktop\DjangoProjects\NewsPortal\NewsPaper\NewsPaper\settings.py changed, reloading.
+Watching for file changes with StatReloader
+C:\Users\пїЅпїЅпїЅпїЅ\Desktop\DjangoProjects\NewsPortal\NewsPaper\NewsPaper\settings.py changed, reloading.
+Watching for file changes with StatReloader
+C:\Users\пїЅпїЅпїЅпїЅ\Desktop\DjangoProjects\NewsPortal\NewsPaper\NewsPaper\settings.py changed, reloading.
+Watching for file changes with StatReloader
+C:\Users\пїЅпїЅпїЅпїЅ\Desktop\DjangoProjects\NewsPortal\NewsPaper\NewsPaper\settings.py changed, reloading.
+Watching for file changes with StatReloader
+C:\Users\пїЅпїЅпїЅпїЅ\Desktop\DjangoProjects\NewsPortal\NewsPaper\NewsPaper\settings.py changed, reloading.
+2021-08-16 12:20:00,870 INFO autoreload Watching for file changes with StatReloader
+2021-08-16 12:20:08,396 INFO basehttp "GET /news/ HTTP/1.1" 200 6946
+2021-08-16 12:20:09,586 INFO basehttp "GET /news/ HTTP/1.1" 200 6946
+2021-08-16 12:20:10,605 INFO basehttp "GET /news/category/21 HTTP/1.1" 200 6490
+2021-08-16 12:20:11,612 INFO basehttp "GET /news/240 HTTP/1.1" 200 3609
+2021-08-16 12:23:59,149 INFO autoreload C:\Users\Олег\Desktop\DjangoProjects\NewsPortal\NewsPaper\NewsPaper\settings.py changed, reloading.
+2021-08-16 12:24:00,162 INFO autoreload Watching for file changes with StatReloader
+2021-08-16 12:24:16,292 INFO autoreload C:\Users\Олег\Desktop\DjangoProjects\NewsPortal\NewsPaper\NewsPaper\settings.py changed, reloading.
+2021-08-16 12:24:17,284 INFO autoreload Watching for file changes with StatReloader
+2021-08-16 12:24:47,427 INFO autoreload C:\Users\Олег\Desktop\DjangoProjects\NewsPortal\NewsPaper\NewsPaper\settings.py changed, reloading.
+2021-08-16 12:24:48,454 INFO autoreload Watching for file changes with StatReloader
+2021-08-16 12:25:59,378 INFO autoreload C:\Users\Олег\Desktop\DjangoProjects\NewsPortal\NewsPaper\NewsPaper\settings.py changed, reloading.
+2021-08-16 12:26:00,368 INFO autoreload Watching for file changes with StatReloader
+2021-08-16 12:27:28,832 INFO autoreload C:\Users\Олег\Desktop\DjangoProjects\NewsPortal\NewsPaper\NewsPaper\settings.py changed, reloading.
+2021-08-16 12:27:29,832 INFO autoreload Watching for file changes with StatReloader
+2021-08-16 12:28:13,856 INFO autoreload C:\Users\Олег\Desktop\DjangoProjects\NewsPortal\NewsPaper\NewsPaper\settings.py changed, reloading.
+2021-08-16 12:28:14,860 INFO autoreload Watching for file changes with StatReloader
+2021-08-16 12:36:39,226 INFO autoreload C:\Users\Олег\Desktop\DjangoProjects\NewsPortal\NewsPaper\NewsPaper\settings.py changed, reloading.
+2021-08-16 12:36:40,283 INFO autoreload Watching for file changes with StatReloader
+2021-08-16 12:37:02,167 INFO autoreload C:\Users\Олег\Desktop\DjangoProjects\NewsPortal\NewsPaper\NewsPaper\settings.py changed, reloading.
+2021-08-16 12:40:03,628 INFO autoreload Watching for file changes with StatReloader
+2021-08-16 12:40:22,094 INFO autoreload C:\Users\Олег\Desktop\DjangoProjects\NewsPortal\NewsPaper\NewsPaper\settings.py changed, reloading.
+2021-08-16 12:40:23,116 INFO autoreload Watching for file changes with StatReloader
+2021-08-16 12:40:28,690 INFO autoreload C:\Users\Олег\Desktop\DjangoProjects\NewsPortal\NewsPaper\NewsPaper\settings.py changed, reloading.
+2021-08-16 12:40:29,701 INFO autoreload Watching for file changes with StatReloader
+2021-08-16 12:40:57,588 INFO autoreload C:\Users\Олег\Desktop\DjangoProjects\NewsPortal\NewsPaper\NewsPaper\settings.py changed, reloading.
+2021-08-16 12:41:37,180 INFO autoreload Watching for file changes with StatReloader
+2021-08-16 12:41:37,633 INFO basehttp "GET /news/ HTTP/1.1" 200 6946
+2021-08-16 12:41:40,190 INFO basehttp "GET /news/192 HTTP/1.1" 200 3631
+2021-08-16 12:41:49,874 INFO autoreload C:\Users\Олег\Desktop\DjangoProjects\NewsPortal\NewsPaper\NewsPaper\settings.py changed, reloading.

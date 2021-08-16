@@ -1,0 +1,33 @@
+2021-08-16 12:42:45,595 ERROR Internal Server Error: /news/search/ C:\Users\Юыху\Desktop\DjangoProjects\NewsPortal\env\lib\site-packages\django\utils\log.py (<class 'django.core.exceptions.ImproperlyConfigured'>, ImproperlyConfigured('NewsSearch is missing a QuerySet. Define NewsSearch.model, NewsSearch.queryset, or override NewsSearch.get_queryset().'), <traceback object at 0x000001D3D0CB3AC0>)
+Traceback (most recent call last):
+  File "C:\Users\Юыху\Desktop\DjangoProjects\NewsPortal\env\lib\site-packages\django\core\handlers\exception.py", line 47, in inner
+    response = get_response(request)
+  File "C:\Users\Юыху\Desktop\DjangoProjects\NewsPortal\env\lib\site-packages\django\core\handlers\base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\Юыху\Desktop\DjangoProjects\NewsPortal\env\lib\site-packages\django\views\generic\base.py", line 70, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "C:\Users\Юыху\Desktop\DjangoProjects\NewsPortal\env\lib\site-packages\django\views\generic\base.py", line 98, in dispatch
+    return handler(request, *args, **kwargs)
+  File "C:\Users\Юыху\Desktop\DjangoProjects\NewsPortal\env\lib\site-packages\django\views\generic\list.py", line 142, in get
+    self.object_list = self.get_queryset()
+  File "C:\Users\Юыху\Desktop\DjangoProjects\NewsPortal\env\lib\site-packages\django\views\generic\list.py", line 35, in get_queryset
+    raise ImproperlyConfigured(
+django.core.exceptions.ImproperlyConfigured: NewsSearch is missing a QuerySet. Define NewsSearch.model, NewsSearch.queryset, or override NewsSearch.get_queryset().
+2021-08-16 13:06:36,611 ERROR Internal Server Error: /news/ C:\Users\Юыху\Desktop\DjangoProjects\NewsPortal\env\lib\site-packages\django\utils\log.py (<class 'django.core.exceptions.ImproperlyConfigured'>, ImproperlyConfigured('NewsList is missing a QuerySet. Define NewsList.model, NewsList.queryset, or override NewsList.get_queryset().'), <traceback object at 0x000001C9ED341B80>)
+Traceback (most recent call last):
+  File "C:\Users\Юыху\Desktop\DjangoProjects\NewsPortal\env\lib\site-packages\django\core\handlers\exception.py", line 47, in inner
+    response = get_response(request)
+  File "C:\Users\Юыху\Desktop\DjangoProjects\NewsPortal\env\lib\site-packages\django\core\handlers\base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\Юыху\Desktop\DjangoProjects\NewsPortal\env\lib\site-packages\django\views\generic\base.py", line 70, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "C:\Users\Юыху\Desktop\DjangoProjects\NewsPortal\env\lib\site-packages\django\contrib\auth\mixins.py", line 71, in dispatch
+    return super().dispatch(request, *args, **kwargs)
+  File "C:\Users\Юыху\Desktop\DjangoProjects\NewsPortal\env\lib\site-packages\django\views\generic\base.py", line 98, in dispatch
+    return handler(request, *args, **kwargs)
+  File "C:\Users\Юыху\Desktop\DjangoProjects\NewsPortal\env\lib\site-packages\django\views\generic\list.py", line 142, in get
+    self.object_list = self.get_queryset()
+  File "C:\Users\Юыху\Desktop\DjangoProjects\NewsPortal\env\lib\site-packages\django\views\generic\list.py", line 35, in get_queryset
+    raise ImproperlyConfigured(
+django.core.exceptions.ImproperlyConfigured: NewsList is missing a QuerySet. Define NewsList.model, NewsList.queryset, or override NewsList.get_queryset().
+2021-08-16 13:06:36,633 ERROR "GET /news/ HTTP/1.1" 500 92685 C:\Users\Юыху\Desktop\DjangoProjects\NewsPortal\env\lib\site-packages\django\core\servers\basehttp.py None

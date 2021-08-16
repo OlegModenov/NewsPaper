@@ -200,3 +200,111 @@ CELERY_BEAT_SCHEDULE = {
         'schedule': crontab(hour=8, minute=00, day_of_week=1)
     }
 }
+
+# Логирование
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'console_debug': {
+            'format': '%(asctime)s %(levelname)s %(message)s'
+        },
+        'console_warning': {
+            'format': '%(asctime)s %(levelname)s %(message)s %(pathname)s'
+        },
+        'general_formatter': {
+            'format': '%(asctime)s %(levelname)s %(module)s %(message)s'
+        },
+        'error_formatter': {
+            'format': '%(asctime)s %(levelname)s %(message)s %(pathname)s %(exc_info)s'
+        },
+        'error_mail': {
+            'format': '%(asctime)s %(levelname)s %(message)s %(pathname)s'
+        },
+
+    },
+    'filters': {
+        'require_debug_true': {
+            '()': 'django.utils.log.RequireDebugTrue',
+        },
+        'require_debug_false': {
+            '()': 'django.utils.log.RequireDebugFalse',
+        },
+    },
+    'handlers': {
+        'console_debug': {
+            'level': 'DEBUG',
+            'class': 'logging.StreamHandler',
+            'filters': ['require_debug_true'],
+            'formatter': 'console_debug'
+        },
+        'console_warning': {
+            'level': 'WARNING',
+            'class': 'logging.StreamHandler',
+            'filters': ['require_debug_true'],
+            'formatter': 'console_warning'
+        },
+        'console_error': {
+            'level': 'ERROR',
+            'class': 'logging.StreamHandler',
+            'filters': ['require_debug_true'],
+            'formatter': 'error_formatter'
+        },
+        'general_file': {
+            'level': 'INFO',
+            'class': 'logging.FileHandler',
+            'filename': '/Users/Олег/Desktop/DjangoProjects/NewsPortal/NewsPaper/logs/general.log',
+            'filters': ['require_debug_false'],
+            'formatter': 'general_formatter'
+        },
+        'error_file': {
+            'level': 'ERROR',
+            'class': 'logging.FileHandler',
+            'filename': '/Users/Олег/Desktop/DjangoProjects/NewsPortal/NewsPaper/logs/error.log',
+            'formatter': 'error_formatter'
+        },
+        'security_file': {
+            'level': 'INFO',
+            'class': 'logging.FileHandler',
+            'filename': '/Users/Олег/Desktop/DjangoProjects/NewsPortal/NewsPaper/logs/security.log',
+            'formatter': 'general_formatter'
+        },
+        'mail_admins': {
+            'level': 'ERROR',
+            'class': 'django.utils.log.AdminEmailHandler',
+            'formatter': 'error_mail'
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['general_file', 'console_debug', 'console_warning', 'console_error'],
+            'level': 'DEBUG',
+            'propagate': True,
+        },
+        'django.request': {
+            'handlers': ['error_file', 'mail_admins'],
+            'level': 'ERROR',
+            'propagate': True,
+        },
+        'django.server': {
+            'handlers': ['error_file', 'mail_admins'],
+            'level': 'ERROR',
+            'propagate': True,
+        },
+        'django.template': {
+            'handlers': ['error_file'],
+            'level': 'ERROR',
+            'propagate': True,
+        },
+        'django.db_backends': {
+            'handlers': ['error_file'],
+            'level': 'ERROR',
+            'propagate': True,
+        },
+        'django.security': {
+            'handlers': ['security_file'],
+            'level': 'INFO',
+            'propagate': True,
+        },
+    },
+}
